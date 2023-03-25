@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Link, Box, Flex, Text, Button, Stack, Badge } from "@chakra-ui/react";
-import { Navigate, NavLink } from "react-router-dom";
+import {Box, Flex, Text, Button, Stack, Badge } from "@chakra-ui/react";
+import { Link } from 'react-router-dom';
+import { useContext } from "react";
+import AppContext from "../context"
 const Header = (props) => {
-  const [count, setCount] = useState(0);
+
+const {cartItems} = useContext(AppContext)
   const [isOpen, setIsOpen] = useState(false);
-  useEffect(() => {
-    const items = localStorage.getItem("cartItems");
-    if (items) {
-      const cartItems = JSON.parse(items);
-      setCount(cartItems.length);
-    }
-  }, [props]);
+
   const toggle = () => setIsOpen(!isOpen);
 
   const CloseIcon = () => (
@@ -22,7 +19,7 @@ const Header = (props) => {
       />
     </svg>
   );
-  
+
   const MenuIcon = () => (
     <svg
       width="24px"
@@ -34,7 +31,7 @@ const Header = (props) => {
       <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
     </svg>
   );
-  
+
   const MenuToggle = ({ toggle, isOpen }) => {
     return (
       <Box display={{ base: "block", md: "none" }} onClick={toggle}>
@@ -42,7 +39,7 @@ const Header = (props) => {
       </Box>
     );
   };
-  
+
   const MenuItem = ({ children, isLast, to = "/", ...rest }) => {
     return (
       <Link href={to}>
@@ -52,7 +49,7 @@ const Header = (props) => {
       </Link>
     );
   };
-  
+
   const MenuLinks = ({ isOpen }) => {
     return (
       <Box
@@ -64,12 +61,15 @@ const Header = (props) => {
           align="center"
           justify={["center", "space-between", "flex-end", "flex-end"]}
           direction={["column", "row", "row", "row"]}
-          //   pt={[4, 4, 0, 0]}
         >
-          <MenuItem to="/cart">
-          E-cart<Badge colorScheme="green">{count}</Badge>
-  
-          </MenuItem>
+          <Link to="/cart">
+            E-cart
+            {
+              cartItems.length > 0 &&            
+            <Badge colorScheme="green">{cartItems.length}</Badge>
+            }
+
+          </Link>
           <MenuItem to="/how"> Register </MenuItem>
           <MenuItem to="/signup" isLast>
             <Button
@@ -78,7 +78,12 @@ const Header = (props) => {
               color={["primary.500", "primary.500", "white", "white"]}
               bg={["white", "white", "primary.500", "primary.500"]}
               _hover={{
-                bg: ["primary.100", "primary.100", "primary.600", "primary.600"],
+                bg: [
+                  "primary.100",
+                  "primary.100",
+                  "primary.600",
+                  "primary.600",
+                ],
               }}
             >
               Sign UP
@@ -88,7 +93,7 @@ const Header = (props) => {
       </Box>
     );
   };
-  
+
   // NavBarContainer
   const NavBarContainer = ({ children, ...props }) => {
     return (
@@ -119,6 +124,5 @@ const Header = (props) => {
     </NavBarContainer>
   );
 };
-
 
 export default Header;

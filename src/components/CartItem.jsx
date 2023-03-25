@@ -1,46 +1,50 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import "./cart.css";
 import { AiFillDelete } from "react-icons/ai";
+import AppContext from "../context";
 function CartItem(prop) {
-  let [quantity, setQuantity] = useState(1);
-  let [totalPrice, setTotalPrice]=useState(prop.item.price);
-  useEffect(()=>{
-    if(quantity>0){
-      setTotalPrice(prop.item.price)
-    }
-  },[prop])
-  function handleQuantityChange(newQuantity){
-    console.log(newQuantity);
-    if(newQuantity>0){
-        totalPrice = Number(prop.item.price)*newQuantity;
-        setQuantity(newQuantity);
-        setTotalPrice(totalPrice);
-    }else{
-        totalPrice=0;
-        setTotalPrice(totalPrice);
-        setQuantity(0);
-    }
-    // Step 5: Call parent's function with new quantity.
-    prop.updatePrice(prop.item, newQuantity);
-}
+  let [totalPrice, setTotalPrice] = useState(Math.ceil(prop.item.price));
+  let { dispactcherEvent } = useContext(AppContext);
+
+  useEffect(() => {
+    let price = prop.item.qty*prop.item.price;
+    console.log(price)
+    setTotalPrice(Math.ceil(price));
+  }, [prop]);
+
+  function handleQuantityChange(newQuantity) {
+    prop.item.qty = newQuantity;
+    console.log(prop.item);
+    dispactcherEvent("UPDATE_ITEM", prop.item);
+  }
 
   return (
     <div className="cartItem">
       <img src={prop.item.image} alt="Item" />
       <article>
         <h3>{prop.item.title}</h3>
-        <p>₹ {
-        totalPrice
-        }</p>
+        <p>₹ {totalPrice}</p>
       </article>
 
       <div>
-        <button onClick={() => handleQuantityChange(quantity<=1?0:quantity-1)
-        }>-</button>
-        <p>{quantity}</p>
-        <button onClick={() => handleQuantityChange(quantity+1)}>+</button>
+        <button
+          onClick={() =>
+            handleQuantityChange(prop.item.qty <= 1 ? 0 : prop.item.qty - 1)
+          }
+        >
+          -
+        </button>
+        <p>{prop.item.qty}</p>
+        <button onClick={() => handleQuantityChange(prop.item.qty + 1)}>
+          {" "}
+          +{" "}
+        </button>
       </div>
-      <AiFillDelete onClick={()=>{prop.delete(prop.id)}}/>
+      <AiFillDelete
+        onClick={() => {
+          prop.delete(prop.id);
+        }}
+      />
     </div>
   );
 }

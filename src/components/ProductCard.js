@@ -10,23 +10,13 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { StarIcon } from "@chakra-ui/icons";
-
+import { useContext } from "react";
+import AppContext from "../context";
 const ProductCard = (values) => {
+
+  const {dispactcherEvent} = useContext(AppContext);
   const handleAddToCart=()=>{
-      // cartItems is the key.
-      const products = localStorage.getItem("cartItems");
-      // if there are no cartitems
-      if(!products){
-        let cartItems=[];
-        cartItems.push(values.item);
-        localStorage.setItem("cartItems", JSON.stringify(cartItems));
-      }else{
-        // there are some existing data.
-        let cartItems = JSON.parse(products);
-        cartItems.push(values.item);
-        localStorage.setItem("cartItems", JSON.stringify(cartItems));
-      }
-      values.notify();
+    dispactcherEvent("ADD_ITEM",values.item)
   }
   return (
     <VStack

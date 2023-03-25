@@ -21,24 +21,13 @@ const Home = () => {
         })
         setProducts(res);
       });
-      notifyCartUpdate();
   }, []);
   
-  function notifyCartUpdate(){
-    console.log("Home is notified");
-    const items = localStorage.getItem("cartItems");
-      if(items){
-        const cartItems = JSON.parse(items);
-        setCartItemCount(cartItems.length);
-      }
-  }
-  console.log(products);
   return (
-  <>   <Header
-  cartItemCount={cartItemCount} />
+  <>   <Header/>
     <HStack flexWrap={"wrap"} width={"full"} justifyContent={"space-evenly"}>
       {products.map((product, i) => (
-        <ProductCard key={product.id} item={product} index={i}              notify={notifyCartUpdate}
+        <ProductCard key={product.id} item={product} index={i}           
         // handler = {addToCart}
          />
       ))}
