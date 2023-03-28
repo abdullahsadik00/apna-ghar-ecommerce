@@ -1,13 +1,14 @@
-import { HStack } from "@chakra-ui/react";
+import { Box, Button, Flex, HStack, Link, Text, VStack } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard";
 import { useDispatch } from "react-redux";
 import { toast } from "react-hot-toast";
 import Header from "../components/Header";
+import Hero from "../components/Hero";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
-  const [cartItemCount, setCartItemCount]=useState(0);
+  const [cartItemCount, setCartItemCount] = useState(0);
 
   useEffect(() => {
     fetch("https://fakestoreapi.com/products")
@@ -15,24 +16,50 @@ const Home = () => {
       .then((res) => res.json())
       // listening for json function to return.
       .then((res) => {
-        res.forEach(o=>{
-          o.qty=1;
-          o.rating.rate=Math.ceil(Number(o.rating.rate));
-        })
+        res.forEach((o) => {
+          o.qty = 1;
+          o.price = Math.ceil(o.price )
+          o.rating.rate = Math.ceil(Number(o.rating.rate));
+        });
         setProducts(res);
+        console.log(typeof res);
+        console.log(res);
       });
   }, []);
-  
+
+  const handleCategory = (category)=>{
+    fetch('https://fakestoreapi.com/products/category/'+category)
+            .then(res=>res.json())
+            .then(json=>        setProducts(json)
+            )
+  }
   return (
-  <>   <Header/>
-    <HStack flexWrap={"wrap"} width={"full"} justifyContent={"space-evenly"}>
-      {products.map((product, i) => (
-        <ProductCard key={product.id} item={product} index={i}           
-        // handler = {addToCart}
-         />
-      ))}
-    </HStack>
-  </>
+    <>
+      {" "}
+      <Header />
+      {/* <Hero/> */}
+      <Box>
+        <Text as={"b"} fontSize='5xl'>Category</Text>
+      <HStack justifyContent={"center"} m={4}  flexWrap={"wrap"}>
+        
+        <Button m={3} colorScheme='green' onClick={()=>handleCategory("women's clothing")}>Women's clothing</Button>
+        <Button m={3} colorScheme='green' onClick={()=>handleCategory("men's clothing")}>Men's clothing</Button>
+        <Button m={3} colorScheme='green' onClick={()=>handleCategory("jewelery")}>Jewelery</Button>
+        <Button m={3} colorScheme='green' onClick={()=>handleCategory("electronics")}>Electronics</Button>
+        
+      </HStack>
+      </Box>
+      <HStack flexWrap={"wrap"} width={"full"} justifyContent={"space-evenly"}>
+        {products.map((product, i) => (
+          <ProductCard
+            key={product.id}
+            item={product}
+            index={i}
+            // handler = {addToCart}
+          />
+        ))}
+      </HStack>
+    </>
   );
 };
 

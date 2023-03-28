@@ -6,57 +6,88 @@ import Cart from "./pages/Cart";
 import { Toaster } from "react-hot-toast";
 import { useState } from "react";
 import AppContext from "./context";
+import ProductDetails from "./pages/ProductDetails";
 function App() {
-
   // 2. Initialize Store.
-  const [cartItems, setCartItems] = useState([]);
+  const [cartItems, setCartItems] = useState({
+    cartItem: [],
+    subTotal: 0,
+    shipping: 0,
+    tax: 0,
+    total: 0,
+    user:{}
+  });
 
   // 3. Dispatchers.
   // action means the type and payload means the data
   const dispactcherEvent = (action, payload) => {
     switch (action) {
       case "ADD_ITEM": {
-        console.log("add to cart")
-        let items = cartItems.slice();
-        let isItemExist = items.find((el)=> el.id === payload.id);
-        console.log(isItemExist)
-        if(isItemExist ){
-          items.forEach((el)=>{
-            if(el.id === payload.id){
-              console.log("isItemExist")
+        let item = payload;
+        let cart = cartItems.cartItem;
+        const isItemExist = cartItems.cartItem.find((i) => i.id == item.id);
+        if (isItemExist) {
+          cart.forEach((i) => {
+            if (i.id == item.id) {
+              i.qty += 1;
             }
-          })
-          setCartItems(items);
-        }else{
-          items[isItemExist] = payload;
-          setCartItems(items)  
+          });
+          setCartItems({ ...cartItems, cartItems: "cart" });
+        } else {
+          cart.push(item);
+          setCartItems({ ...cartItems, cartItems: "cart" });
         }
-        // console.log(items)
         break;
       }
-      case "UPDATE_ITEM" :{
-        console.log("update cart")
+      case "DECREMENT_ITEM": {
+        let cart = cartItems.cartItem;
+        let index = cartItems.cartItem.findIndex((i) => i.id == payload.id);
+        if(cart[index].qty >1)
+        cart[index].qty -= 1;
+        setCartItems({ ...cartItems, cartItems: "cart" });
+        break;
+      }
+      case "DELETE_ITEM": {
+        let cart = cartItems.cartItem;
+        let index = cartItems.cartItem.findIndex((i) => i.id == payload.id);
+        cart.splice(index,1)
+          setCartItems({ ...cartItems, cartItems: "cart" });
+          break;
+      }
+      case "CALCULATE_PRICE":{
+        let sum = 0;
+        cartItems.cartItem.forEach((i)=>(sum += i.price * i.qty))
+        cartItems.subTotal = sum;
+        cartItems.subTotal = cartItems.subTotal;
+        cartItems.shipping = cartItems.subTotal > 500 ? 0 : 200;
+        cartItems.tax =+ (cartItems.subTotal * .18).toFixed();
+        cartItems.total = cartItems.subTotal + cartItems.tax + cartItems.shipping
+        setCartItems({...cartItems,cartItems:"cartItems.total"})
+        setCartItems({...cartItems,cartItems:"cartItems.tax"})
+        setCartItems({...cartItems,cartItems:"cartItems.shipping"})
+        setCartItems({...cartItems,cartItems:"cartItems.subTotal"})
+        break;
+      }
+      case "USER":{
+        cartItems.user = payload
 
-        let items = cartItems.slice();
-        let index = items.findIndex((el)=>el.id === payload.id);
-        items[index] = payload;
-        setCartItems(items)
         break;
       }
       default: {
-        console.log("invalid");
       }
     }
   };
 
   return (
-        // 4. Initializing Context.
+    // 4. Initializing Context.
     <AppContext.Provider value={{ cartItems, dispactcherEvent }}>
       <div className="App">
         <Router>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/home" element={<Home />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/product/:id" element={<ProductDetails />} />
           </Routes>
           <Toaster />
         </Router>

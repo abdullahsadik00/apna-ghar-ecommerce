@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from "react";
-import {Box, Flex, Text, Button, Stack, Badge } from "@chakra-ui/react";
-import { Link } from 'react-router-dom';
+import { Box, Flex, Text, Button, Stack, Badge } from "@chakra-ui/react";
+import { Link, useNavigate } from "react-router-dom";
 import { useContext } from "react";
-import AppContext from "../context"
+import AppContext from "../context";
 const Header = (props) => {
-
-const {cartItems} = useContext(AppContext)
+  const navigate = useNavigate();
+  const { cartItems } = useContext(AppContext);
   const [isOpen, setIsOpen] = useState(false);
-
   const toggle = () => setIsOpen(!isOpen);
-
   const CloseIcon = () => (
     <svg width="24" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
       <title>Close</title>
@@ -19,7 +17,6 @@ const {cartItems} = useContext(AppContext)
       />
     </svg>
   );
-
   const MenuIcon = () => (
     <svg
       width="24px"
@@ -31,7 +28,6 @@ const {cartItems} = useContext(AppContext)
       <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
     </svg>
   );
-
   const MenuToggle = ({ toggle, isOpen }) => {
     return (
       <Box display={{ base: "block", md: "none" }} onClick={toggle}>
@@ -39,7 +35,6 @@ const {cartItems} = useContext(AppContext)
       </Box>
     );
   };
-
   const MenuItem = ({ children, isLast, to = "/", ...rest }) => {
     return (
       <Link href={to}>
@@ -64,11 +59,11 @@ const {cartItems} = useContext(AppContext)
         >
           <Link to="/cart">
             E-cart
-            {
-              cartItems.length > 0 &&            
-            <Badge colorScheme="green">{cartItems.length}</Badge>
-            }
-
+            {cartItems.cartItem.length >= 0 && (
+              <Badge colorScheme="green">
+                {cartItems.cartItem.length }
+                </Badge>
+            )}
           </Link>
           <MenuItem to="/how"> Register </MenuItem>
           <MenuItem to="/signup" isLast>
@@ -103,8 +98,7 @@ const {cartItems} = useContext(AppContext)
         justify="space-between"
         wrap="wrap"
         w="100%"
-        // mb={8}
-        p={8}
+        p={2}
         bg={["primary.500", "primary.500", "transparent", "transparent"]}
         color={["white", "white", "primary.700", "primary.700"]}
         {...props}
@@ -116,8 +110,7 @@ const {cartItems} = useContext(AppContext)
   return (
     <NavBarContainer {...props}>
       <Text as={"b"}>
-        <MenuItem to="/">Apna Ghar</MenuItem>
-        {/* <Navigate to={"/"}>Apna Ghar</Navigate> */}
+        <Button variant={"unstyled"} onClick={()=>navigate("/home")}>Apna Ghar</Button>
       </Text>
       <MenuToggle toggle={toggle} isOpen={isOpen} />
       <MenuLinks isOpen={isOpen} />
