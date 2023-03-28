@@ -7,6 +7,9 @@ import { Toaster } from "react-hot-toast";
 import { useState } from "react";
 import AppContext from "./context";
 import ProductDetails from "./pages/ProductDetails";
+import Checkout from "./pages/Checkout";
+import Register from "./pages/Register";
+import Signin from "./pages/Signin";
 function App() {
   // 2. Initialize Store.
   const [cartItems, setCartItems] = useState({
@@ -15,7 +18,8 @@ function App() {
     shipping: 0,
     tax: 0,
     total: 0,
-    user:{}
+    user:{},
+    payment:{}
   });
 
   // 3. Dispatchers.
@@ -70,7 +74,10 @@ function App() {
       }
       case "USER":{
         cartItems.user = payload
-
+        break;
+      }
+      case "PAYMENT":{
+        cartItems.payment = payload
         break;
       }
       default: {
@@ -88,6 +95,9 @@ function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/product/:id" element={<ProductDetails />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/signup" element={<Register />} />
+            <Route path="/signin" element={<Signin />} />
           </Routes>
           <Toaster />
         </Router>

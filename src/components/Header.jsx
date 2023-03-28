@@ -46,6 +46,7 @@ const Header = (props) => {
   };
 
   const MenuLinks = ({ isOpen }) => {
+    let isLoggedIn = localStorage.getItem("isLoggedIn");
     return (
       <Box
         display={{ base: isOpen ? "block" : "none", md: "block" }}
@@ -65,25 +66,26 @@ const Header = (props) => {
                 </Badge>
             )}
           </Link>
-          <MenuItem to="/how"> Register </MenuItem>
-          <MenuItem to="/signup" isLast>
-            <Button
-              size="sm"
-              rounded="md"
-              color={["primary.500", "primary.500", "white", "white"]}
-              bg={["white", "white", "primary.500", "primary.500"]}
-              _hover={{
-                bg: [
-                  "primary.100",
-                  "primary.100",
-                  "primary.600",
-                  "primary.600",
-                ],
-              }}
-            >
-              Sign UP
-            </Button>
-          </MenuItem>
+          {!isLoggedIn  ?          <MenuItem to="/how"> Register </MenuItem>
+ :          <MenuItem to="/signup" isLast>
+ <Button
+   size="sm"
+   rounded="md"
+   color={["primary.500", "primary.500", "white", "white"]}
+   bg={["white", "white", "primary.500", "primary.500"]}
+   _hover={{
+     bg: [
+       "primary.100",
+       "primary.100",
+       "primary.600",
+       "primary.600",
+     ],
+   }}
+ >
+   Sign UP
+ </Button>
+</MenuItem>}
+
         </Stack>
       </Box>
     );

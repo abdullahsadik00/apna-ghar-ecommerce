@@ -4,9 +4,11 @@ import { StarIcon } from "@chakra-ui/icons";
 import { useContext } from "react";
 import AppContext from "../context";
 import { Link } from "react-router-dom";
+import { toast } from "react-hot-toast";
 const ProductCard = (values) => {
   const {dispactcherEvent} = useContext(AppContext);
   const handleAddToCart=()=>{
+    toast("Added to cart")
     dispactcherEvent("ADD_ITEM",values.item)
     dispactcherEvent("CALCULATE_PRICE")
   }

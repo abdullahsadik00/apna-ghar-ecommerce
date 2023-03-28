@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import {
   Box,
   Button,
-  Checkbox,
   Container,
   Divider,
   Flex,
@@ -22,6 +21,8 @@ import {
   AiFillTwitterCircle,
 } from "react-icons/ai";
 import AppContext from "../context";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
 const Register = () => {
   const providers = [
@@ -31,10 +32,13 @@ const Register = () => {
   ];
   const [user, setUser] = useState({});
   const { dispactcherEvent } = useContext(AppContext);
+  const navigate = useNavigate()
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(user);
-    dispactcherEvent("USER",user)
+    toast("Registered Succesfull")
+    dispactcherEvent("USER", user);
+    navigate("/signin")
   };
 
   return (
@@ -57,7 +61,7 @@ const Register = () => {
             </Heading>
             <HStack spacing="1" justify="center">
               <Text color="muted">Already have an account?</Text>
-              <Button variant="link" colorScheme="blue">
+              <Button variant="link" colorScheme="blue" onClick={()=>navigate("/signin")}>
                 Sign in
               </Button>
             </HStack>
@@ -77,8 +81,8 @@ const Register = () => {
                 <FormControl>
                   <FormLabel>Full name</FormLabel>
                   <Input
-                    type="text"
-                    placeholder="Please enter Full Name"
+                    type="text" 
+                    placeholder="Please enter Full Name" isRequired
                     onInput={(e) => {
                       user.name = e.target.value;
                       setUser(user);
@@ -88,7 +92,7 @@ const Register = () => {
                 <FormControl>
                   <FormLabel>Address</FormLabel>
                   <Input
-                    type="text"
+                    type="text" isRequired
                     placeholder="Please enter Address"
                     onInput={(e) => {
                       user.address = e.target.value;
@@ -102,7 +106,7 @@ const Register = () => {
                     <FormControl>
                       <FormLabel>Pincode</FormLabel>
                       <Input
-                        type="number"
+                        type="number" isRequired
                         placeholder="Please enter Pincode"
                         onInput={(e) => {
                           user.code = e.target.value;
@@ -112,11 +116,10 @@ const Register = () => {
                     </FormControl>
                   </Flex>
                   <Flex direction="column" align="center" flex="1">
-                    {" "}
                     <FormControl>
                       <FormLabel>City</FormLabel>
                       <Input
-                        type="text"
+                        type="text" isRequired
                         placeholder="Please enter city"
                         onInput={(e) => {
                           user.city = e.target.value;
@@ -129,7 +132,7 @@ const Register = () => {
                 <FormControl>
                   <FormLabel>Email</FormLabel>
                   <Input
-                    type="email"
+                    type="email" isRequired
                     placeholder="Email"
                     onInput={(e) => {
                       user.email = e.target.value;
@@ -140,7 +143,7 @@ const Register = () => {
                 <FormControl>
                   <FormLabel>Password</FormLabel>
                   <Input
-                    type="password"
+                    type="password" isRequired
                     placeholder="password"
                     onInput={(e) => {
                       user.password = e.target.value;

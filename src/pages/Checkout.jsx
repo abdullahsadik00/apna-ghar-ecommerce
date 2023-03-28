@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Header from "../components/Header";
 import {
   Box,
@@ -19,7 +19,14 @@ import AppContext from "../context";
 
 const Checkout = () => {
   const { cartItems } = useContext(AppContext);
-console.log(cartItems.user.name)
+  const { dispactcherEvent } = useContext(AppContext);
+  const [payment, setPayment] = useState({});
+const handleSave = ()=>{
+  dispactcherEvent("PAYMENT", payment);
+
+}
+
+  console.log(cartItems.name);
   return (
     <>
       <Header />
@@ -42,25 +49,45 @@ console.log(cartItems.user.name)
               <Stack spacing={4}>
                 <FormControl>
                   <FormLabel>Full name</FormLabel>
-                  <Input isReadOnly type={"text"} value={cartItems.user.name} placeholder="Please enter Full Name" />
+                  <Input
+                    isReadOnly
+                    type={"text"}
+                    value={cartItems.user.name}
+                    placeholder="Please enter Full Name"
+                  />
                 </FormControl>
                 <FormControl>
                   <FormLabel>Address</FormLabel>
-                  <Input type="text" isReadOnly placeholder="Please enter Address"  value={cartItems.user.email}/>
+                  <Input
+                    type="text"
+                    isReadOnly
+                    placeholder="Please enter Address"
+                    value={cartItems.user.email}
+                  />
                 </FormControl>
                 {/*  */}
                 <Box display={"flex"}>
                   <Flex direction="column" align="center" flex="1" mr={3}>
                     <FormControl>
                       <FormLabel>Pincode</FormLabel>
-                      <Input type="number" placeholder="Please enter Pincode" value={cartItems.user.code} isReadOnly/>
+                      <Input
+                        type="number"
+                        placeholder="Please enter Pincode"
+                        value={cartItems.user.code}
+                        isReadOnly
+                      />
                     </FormControl>
                   </Flex>
                   <Flex direction="column" align="center" flex="3">
                     {" "}
                     <FormControl>
                       <FormLabel>City</FormLabel>
-                      <Input type="text" placeholder="Please enter city" isReadOnly value={cartItems.user.city} />
+                      <Input
+                        type="text"
+                        placeholder="Please enter city"
+                        isReadOnly
+                        value={cartItems.user.city}
+                      />
                     </FormControl>
                   </Flex>
                 </Box>
@@ -68,34 +95,41 @@ console.log(cartItems.user.name)
 
                 <FormControl>
                   <FormLabel>Email</FormLabel>
-                  <Input type="email" placeholder="Email" isReadOnly value={cartItems.user.email} />
+                  <Input
+                    type="email"
+                    placeholder="Email"
+                    isReadOnly
+                    value={cartItems.user.email}
+                  />
                 </FormControl>
               </Stack>
-              {/* payment address */}
             </Stack>
             <Heading textAlign="start" fontSize="2xl" fontWeight="extrabold">
               Payment Information
             </Heading>
             <Stack spacing={4}>
-              <FormControl>
+            <form onSubmit={handleSave()}>     <FormControl>
                 <FormLabel>Credit card number</FormLabel>
-                <Input
-                  type="number"
-                  placeholder="Card number"
-                />
+                <Input type="number" placeholder="Card number"  onInput={(e) => {
+                      payment.card = e.target.value;
+                      setPayment(payment);
+                    }} />
               </FormControl>
               <FormControl>
                 <FormLabel>Name on card</FormLabel>
-                <Input
-                  type="text"
-                  placeholder=" Card name"
-                />
+                <Input type="text" placeholder=" Card name"   onInput={(e) => {
+                      payment.name = e.target.value;
+                      setPayment(payment);
+                    }}/>
               </FormControl>
               <Box display={"flex"}>
                 <Flex direction="column" align="center" flex="1" mr={3}>
                   <FormControl>
                     <FormLabel>Expiry date</FormLabel>
-                    <Select placeholder="Select Expiry date">
+                    <Select placeholder="Select Expiry date"  onChange={(e) => {
+                      payment.date = e.target.value;
+                      setPayment(payment);
+                    }}>
                       <option value="2023">2023</option>
                       <option value="2024">2024</option>
                       <option value="2025">2025</option>
@@ -106,16 +140,19 @@ console.log(cartItems.user.name)
                   {" "}
                   <FormControl>
                     <FormLabel>CVV</FormLabel>
-                    <form >
-                    <Input type="password" />
+                    <form>
+                      <Input type="password"  onInput={(e) => {
+                      payment.cvv = e.target.value;
+                      setPayment(payment);
+                    }}/>
                     </form>
                   </FormControl>
                 </Flex>
-              </Box>
+              </Box></form>
             </Stack>
           </Stack>
           <Flex direction="column" align="center" flex="1">
-            <CartOrderSummary />
+            <CartOrderSummary link={"/sucess"}/>
           </Flex>
         </Stack>
       </Box>

@@ -3,15 +3,30 @@ import {
   Button,
   Flex,
   Heading,
-  Link,
   Stack,
   Text,
   useColorModeValue as mode,
 } from "@chakra-ui/react";
 import { FaArrowRight } from "react-icons/fa";
 import AppContext from "../context";
-const CartOrderSummary = () => {
+import { useNavigate } from "react-router-dom";
+const CartOrderSummary = (props) => {
+  console.log(props)
+  const navigate = useNavigate();
+  const handleCheckout = ()=>{
+    let isLoggedIn = localStorage.getItem("isLoggedIn")
+    if(!props.link){
+      if(isLoggedIn){
+        navigate("/checkout")
+      }else{
+        navigate("/signup")
+      }
+    }else{
+      navigate(props.link)
+    }
+  }
   const {cartItems} = useContext(AppContext);
+
   return (
     <Stack spacing="8" borderWidth="1px" rounded="lg" padding="8" width="full">
       <Heading size="md">Order Summary</Heading>
@@ -45,6 +60,7 @@ const CartOrderSummary = () => {
         size="lg"
         fontSize="md"
         rightIcon={<FaArrowRight />}
+        onClick={handleCheckout}
       >
         Checkout
       </Button>

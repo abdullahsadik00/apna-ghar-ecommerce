@@ -55,16 +55,11 @@ const Cart = () => {
             <CartOrderSummary />
             <HStack mt="6" fontWeight="semibold">
               <p>or</p>
-              <Link>Continue shopping</Link>
+              <Link to={"/"}>Continue shopping</Link>
             </HStack>
           </Flex>
         </Stack>
       </Box>
-      {/* ProductDetails<ProductDetails/> */}
-      checkout
-      <Checkout />
-      Register <Register />
-      signni<Signin/>
     </>
   );
 };

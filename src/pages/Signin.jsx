@@ -4,6 +4,7 @@ import {  ButtonGroup, VisuallyHidden } from '@chakra-ui/react'
 import { AiFillGithub,AiFillGoogleCircle,AiFillTwitterCircle } from 'react-icons/ai';
 import AppContext from '../context';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
 
 const Signin = () => {
     
@@ -14,9 +15,11 @@ const Signin = () => {
       ]
       const [user,setUser] = useState({})
       const { cartItems } = useContext(AppContext);
+      localStorage.setItem("isLoggedIn",true)
 const navigate = useNavigate()
   const handleSubmit = event => {
     event.preventDefault();
+    toast("Signed in  ")
     // console.log("ok")
     if(cartItems.user.email == user.email){
        navigate("/")
@@ -36,7 +39,7 @@ const navigate = useNavigate()
           <Heading size={{ base: 'xs', md: 'sm' }}>Log in to your account</Heading>
           <HStack spacing="1" justify="center">
             <Text color="muted">Don't have an account?</Text>
-            <Button variant="link" colorScheme="blue">
+            <Button variant="link" colorScheme="blue" onClick={()=>navigate("/signup")}>
               Sign up
             </Button>
           </HStack>
@@ -54,21 +57,20 @@ const navigate = useNavigate()
           <form onSubmit={handleSubmit}>
             <FormControl>
               <FormLabel htmlFor="email">Email</FormLabel>
-              <Input id="email" type="email"  onInput={(e) => {
+              <Input id="email" type="email" isRequired  onInput={(e) => {
               user.email = e.target.value;
               setUser(user);
             }}  />
             </FormControl>
             <FormControl>
               <FormLabel htmlFor="password">Password</FormLabel>
-              <Input type="password"  onInput={(e) => {
+              <Input type="password" isRequired  onInput={(e) => {
               user.password = e.target.value;
               setUser(user);
             }} />
             </FormControl>
             <Button type='submit' variant="primary">Sign in</Button>
             </form>
-            {/* <PasswordField /> */}
           </Stack>
           <Stack spacing="6">
             <HStack>
