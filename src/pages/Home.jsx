@@ -1,4 +1,4 @@
-import { Box, Button, Flex, HStack, Link, Text, VStack } from "@chakra-ui/react";
+import { Alert, AlertDescription, AlertIcon, AlertTitle, Box, Button, Flex, HStack, Link, Text, VStack } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard";
 import { useDispatch } from "react-redux";
@@ -9,7 +9,7 @@ import Hero from "../components/Hero";
 const Home = () => {
   const [products, setProducts] = useState([]);
   const [cartItemCount, setCartItemCount] = useState(0);
-
+console.log(products ? "ok":"not ok")
   useEffect(() => {
     fetch("https://fakestoreapi.com/products")
       // calling json function.
@@ -37,7 +37,7 @@ const Home = () => {
     <>
       {" "}
       <Header />
-      {/* <Hero/> */}
+      <Hero/>
       <Box>
         <Text as={"b"} fontSize='5xl'>Category</Text>
       <HStack justifyContent={"center"} m={4}  flexWrap={"wrap"}>
@@ -49,16 +49,23 @@ const Home = () => {
         
       </HStack>
       </Box>
-      <HStack flexWrap={"wrap"} width={"full"} justifyContent={"space-evenly"}>
-        {products.map((product, i) => (
-          <ProductCard
-            key={product.id}
-            item={product}
-            index={i}
-            // handler = {addToCart}
-          />
-        ))}
-      </HStack>
+{
+  products.length ?<HStack flexWrap={"wrap"} width={"full"} justifyContent={"space-evenly"}>
+  {products.map((product, i) => (
+    <ProductCard
+      key={product.id}
+      item={product}
+      index={i}
+    />
+  ))}
+</HStack>:<Alert status='error'   width='75%' margin={"auto"}
+
+>
+  <AlertIcon />
+  <AlertTitle>Sorry for inconvenience</AlertTitle>
+  <AlertDescription>The issue has been occurred from our side.Please try again after sometime</AlertDescription>
+</Alert>
+}
     </>
   );
 };

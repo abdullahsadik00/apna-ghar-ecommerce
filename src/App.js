@@ -10,6 +10,7 @@ import ProductDetails from "./pages/ProductDetails";
 import Checkout from "./pages/Checkout";
 import Register from "./pages/Register";
 import Signin from "./pages/Signin";
+import Success from "./pages/Success";
 function App() {
   // 2. Initialize Store.
   const [cartItems, setCartItems] = useState({
@@ -98,6 +99,7 @@ function App() {
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/signup" element={<Register />} />
             <Route path="/signin" element={<Signin />} />
+            <Route path="/success" element={<Success />} />
           </Routes>
           <Toaster />
         </Router>

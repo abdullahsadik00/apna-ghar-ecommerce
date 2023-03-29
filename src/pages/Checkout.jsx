@@ -152,7 +152,7 @@ const handleSave = ()=>{
             </Stack>
           </Stack>
           <Flex direction="column" align="center" flex="1">
-            <CartOrderSummary link={"/sucess"}/>
+            <CartOrderSummary link={"/success"}/>
           </Flex>
         </Stack>
       </Box>
