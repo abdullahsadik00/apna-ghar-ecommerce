@@ -32,8 +32,6 @@ const ProductDetails = () => {
       .then((res) => {
         res.qty = 1;
         setProduct(res);
-        console.log("refreshed");
-        console.log(res);
       });
   }, []);
   const { dispactcherEvent } = useContext(AppContext);

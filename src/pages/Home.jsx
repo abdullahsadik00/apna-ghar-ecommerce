@@ -9,7 +9,6 @@ import Hero from "../components/Hero";
 const Home = () => {
   const [products, setProducts] = useState([]);
   const [cartItemCount, setCartItemCount] = useState(0);
-console.log(products ? "ok":"not ok")
   useEffect(() => {
     fetch("https://fakestoreapi.com/products")
       // calling json function.
@@ -22,8 +21,6 @@ console.log(products ? "ok":"not ok")
           o.rating.rate = Math.ceil(Number(o.rating.rate));
         });
         setProducts(res);
-        console.log(typeof res);
-        console.log(res);
       });
   }, []);
 

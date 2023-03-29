@@ -11,7 +11,6 @@ import { FaArrowRight } from "react-icons/fa";
 import AppContext from "../context";
 import { useNavigate } from "react-router-dom";
 const CartOrderSummary = (props) => {
-  console.log(props)
   const navigate = useNavigate();
   const handleCheckout = ()=>{
     let isLoggedIn = localStorage.getItem("isLoggedIn")

@@ -17,14 +17,11 @@ import { Text } from "@chakra-ui/react";
 function CartItem(prop) {
   const { dispactcherEvent } = useContext(AppContext);
   const handleIncrement = () => {
-    // console.log(prop);
     dispactcherEvent("ADD_ITEM", prop);
     dispactcherEvent("CALCULATE_PRICE")
 
   };
   const handleDecrement = () => {
-    // console.log("decrement")
-    // console.log(prop);
     dispactcherEvent("DECREMENT_ITEM", prop);
     dispactcherEvent("CALCULATE_PRICE")
   };

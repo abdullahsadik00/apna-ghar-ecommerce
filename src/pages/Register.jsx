@@ -35,7 +35,6 @@ const Register = () => {
   const navigate = useNavigate()
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(user);
     toast("Registered Succesfull")
     dispactcherEvent("USER", user);
     navigate("/signin")
@@ -170,7 +169,6 @@ const Register = () => {
                   <Button
                     key={name}
                     width="full"
-                    onClick={console.log("clciked")}
                   >
                     <VisuallyHidden>Sign in with {name}</VisuallyHidden>
                     {icon}

@@ -26,7 +26,6 @@ const handleSave = ()=>{
 
 }
 
-  console.log(cartItems.name);
   return (
     <>
       <Header />

@@ -24,7 +24,6 @@ import Register from "./Register";
 import Signin from "./Signin";
 const Cart = () => {
   const { cartItems } = useContext(AppContext);
-  console.log(cartItems.cartItem);
   return (
     <>
       <Header />{" "}

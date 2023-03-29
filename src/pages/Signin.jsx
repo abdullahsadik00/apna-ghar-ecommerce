@@ -17,10 +17,10 @@ const Signin = () => {
       const { cartItems } = useContext(AppContext);
       localStorage.setItem("isLoggedIn",true)
 const navigate = useNavigate()
+
   const handleSubmit = event => {
     event.preventDefault();
     toast("Signed in  ")
-    // console.log("ok")
     if(cartItems.user.email == user.email){
        navigate("/")
     
